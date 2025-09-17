@@ -1,14 +1,40 @@
-##Spring Configuration
 server:
-  port: 8080
+  port: 8083
 spring:
   application:
-    name: Reports
+    name: "Reports"
   devtools:
     add-properties: false
   h2:
     console:
       enabled: true
-      path: /h2
+      path: "/h2"
   profiles:
-    include:
+    include: dev
+jwt:
+  secret: "VGhpcyBpcyBhIHZlcnkgc2VjdXJlIHNlY3JldCBmb3Igand0IHNpZ25pbmcgYW5kIGl0IG11c3QgYmUgbG9uZyBlbm91Z2ggdG8gYmUgc2VjdXJl"
+  expiration: 3600
+aws:
+  region: sa-east-1
+  dynamodb:
+    endpoint: "http://localhost:8000"
+entrypoint:
+  sqs:
+    region: "sa-east-1"
+#    endpoint: "http://localhost:4566"
+    queueUrl: "https://sqs.sa-east-1.amazonaws.com/265385633596/loan-approved"
+    waitTimeSeconds: 20
+    maxNumberOfMessages: 10
+    visibilityTimeoutSeconds: 10
+    numberOfThreads: 1
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,prometheus"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+cors:
+  allowed-origins: "http://localhost:4200,http://localhost:8080"
