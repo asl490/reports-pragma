@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.pragma.bootcamp.model.report.exception.BadCredentialsException;
 import com.pragma.bootcamp.model.report.exception.ForbiddenException;
+import com.pragma.bootcamp.usecase.report.exceptions.InconsistentDataException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -94,6 +95,16 @@ enum ErrorStrategy {
             return writeResponse(exchange, HttpStatus.FORBIDDEN, errorResponse, objectMapper);
         }
     },
+//    INCONSISTENT_DATA_EXCEPTION(InconsistentDataException.class) {
+//        @Override
+//        public Mono<Void> handle(ServerWebExchange exchange, Throwable ex, ObjectMapper objectMapper,
+//                                 MessageSource messageSource) {
+//            ErrorResponse errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST.name(), ex.getMessage(), null,
+//                    exchange.getRequest().getPath().value());
+//            log.warn(errorResponse.getMessage(), ex.getMessage());
+//            return writeResponse(exchange, HttpStatus.BAD_REQUEST, errorResponse, objectMapper);
+//        }
+//    },
 
     BAD_CREDENTIALS(BadCredentialsException.class) {
         @Override

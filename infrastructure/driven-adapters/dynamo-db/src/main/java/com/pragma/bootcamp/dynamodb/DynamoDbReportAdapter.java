@@ -18,10 +18,6 @@ public class DynamoDbReportAdapter extends TemplateAdapterOperations<Report, Str
         super(connectionFactory, mapper, d -> mapper.map(d, Report.class), "reporte_aprobados");
     }
 
-    @Override
-    public Mono<Report> save(Report report) {
-        return super.save(report);
-    }
 
     @Override
     public Mono<Report> findById(String id) {
