@@ -7,6 +7,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoanApprovedEvent {
     private String approvedAmount;
-    private Integer newTotalCount;
-    private String newTotalAmount;
 }
