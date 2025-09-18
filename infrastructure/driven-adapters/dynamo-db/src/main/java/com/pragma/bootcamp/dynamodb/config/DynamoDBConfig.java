@@ -33,7 +33,7 @@ public class DynamoDBConfig {
     @Profile({"dev", "cer", "pdn"})
     public DynamoDbAsyncClient amazonDynamoDBAsync(MetricPublisher publisher, @Value("${aws.region}") String region) {
         return DynamoDbAsyncClient.builder()
-                .credentialsProvider(ProfileCredentialsProvider.create("default")) // ✅ Usa tus credenciales locales
+                .credentialsProvider(ProfileCredentialsProvider.create("default"))
 //                .credentialsProvider(WebIdentityTokenFileCredentialsProvider.create())
                 .region(Region.of(region))
                 .overrideConfiguration(o -> o.addMetricPublisher(publisher))

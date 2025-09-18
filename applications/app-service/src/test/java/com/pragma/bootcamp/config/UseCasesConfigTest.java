@@ -1,11 +1,13 @@
 package com.pragma.bootcamp.config;
 
+import com.pragma.bootcamp.model.report.gateways.ReportRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class UseCasesConfigTest {
 
@@ -33,6 +35,10 @@ public class UseCasesConfigTest {
         @Bean
         public MyUseCase myUseCase() {
             return new MyUseCase();
+        }
+        @Bean
+        public ReportRepository reportRepository() {
+            return mock(ReportRepository.class);
         }
     }
 

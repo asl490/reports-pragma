@@ -2,7 +2,6 @@ package com.pragma.bootcamp.usecase.report;
 
 import com.pragma.bootcamp.model.report.Report;
 import com.pragma.bootcamp.model.report.gateways.ReportRepository;
-import com.pragma.bootcamp.usecase.report.exceptions.InconsistentDataException;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
@@ -24,7 +23,7 @@ public class ReportUseCase {
                         .build());
     }
 
-    public Mono<Report> addApprovedLoan(BigDecimal newLoanAmount, Long expectedNewCount, BigDecimal expectedNewAmount) {
+    public Mono<Report> addApprovedLoan(BigDecimal newLoanAmount) {
         return reportRepository.findById(REPORT_ID)
                 .defaultIfEmpty(Report.builder()
                         .id(REPORT_ID)
@@ -32,26 +31,9 @@ public class ReportUseCase {
                         .totalLoanAmount(BigDecimal.ZERO)
                         .build())
                 .flatMap(currentReport -> {
-                    // Validation for count
-                    long nextCount = currentReport.getTotalLoans() + 1;
-                    if (nextCount != expectedNewCount) {
-                        return Mono.error(new InconsistentDataException(
-                                "Inconsistency in COUNT detected. Expected " + nextCount +
-                                " but received event for " + expectedNewCount));
-                    }
-
-                    // Validation for amount
-                    BigDecimal newTotalAmount = currentReport.getTotalLoanAmount().add(newLoanAmount);
-                    if (newTotalAmount.compareTo(expectedNewAmount) != 0) {
-                        return Mono.error(new InconsistentDataException(
-                                "Inconsistency in TOTAL AMOUNT detected. Calculated " + newTotalAmount +
-                                " but event expected " + expectedNewAmount));
-                    }
-
-                    // If both validations pass, update
                     Report updatedReport = currentReport.toBuilder()
-                            .totalLoans(nextCount)
-                            .totalLoanAmount(newTotalAmount)
+                            .totalLoans(currentReport.getTotalLoans() + 1)
+                            .totalLoanAmount(currentReport.getTotalLoanAmount().add(newLoanAmount))
                             .lastUpdateTime(LocalDateTime.now())
                             .build();
                     return reportRepository.save(updatedReport);

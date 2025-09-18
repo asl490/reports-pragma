@@ -80,7 +80,7 @@ enum ErrorStrategy {
 
             ErrorResponse errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST.name(), ex.getMessage(), errors,
                     exchange.getRequest().getPath().value());
-            log.warn(errorResponse.getMessage() + " {}", errors.toString());
+            log.warn("{} {}", errorResponse.getMessage(), errors.toString());
             return writeResponse(exchange, HttpStatus.BAD_REQUEST, errorResponse, objectMapper);
         }
     },
@@ -106,34 +106,11 @@ enum ErrorStrategy {
         }
     },
 
-
-//    BAD_REQUEST_NOTIFICATION(BusinessException.class) {
-//        @Override
-//        public Mono<Void> handle(ServerWebExchange exchange, Throwable ex, ObjectMapper objectMapper,
-//                                 MessageSource messageSource) {
-//            ErrorResponse errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST.name(), ex.getMessage(), null,
-//                    exchange.getRequest().getPath().value());
-//            log.warn(errorResponse.getMessage(), ex.getMessage());
-//            return writeResponse(exchange, HttpStatus.FORBIDDEN, errorResponse, objectMapper);
-//        }
-//    },
-//    BAD_REQUEST_NOTIFICATION_AWS(ServerWebInputException.class) {
-//        @Override
-//        public Mono<Void> handle(ServerWebExchange exchange, Throwable ex, ObjectMapper objectMapper,
-//                                 MessageSource messageSource) {
-//            ErrorResponse errorResponse = buildErrorResponse(HttpStatus.BAD_REQUEST.name(), BusinessException.Type.REQUEST_LOAN_NOT_FOUND.getMessage(), null,
-//                    exchange.getRequest().getPath().value());
-//            log.warn(errorResponse.getMessage(), ex.getMessage());
-//            return writeResponse(exchange, HttpStatus.FORBIDDEN, errorResponse, objectMapper);
-//        }
-//    },
-
-
     DEFAULT(Throwable.class) {
         @Override
         public Mono<Void> handle(ServerWebExchange exchange, Throwable ex, ObjectMapper objectMapper,
                                  MessageSource messageSource) {
-            log.warn("error {}", ex);
+            log.error("Error untracked {}", ex.toString());
             ErrorResponse errorResponse = buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.name(), ex.getMessage(),
                     null, exchange.getRequest().getPath().value());
 
