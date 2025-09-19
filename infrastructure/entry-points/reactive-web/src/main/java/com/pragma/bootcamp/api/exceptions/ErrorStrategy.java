@@ -1,10 +1,8 @@
 package com.pragma.bootcamp.api.exceptions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.pragma.bootcamp.model.report.exception.BadCredentialsException;
 import com.pragma.bootcamp.model.report.exception.ForbiddenException;
-import com.pragma.bootcamp.usecase.report.exceptions.InconsistentDataException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +14,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.ServerWebInputException;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Function;
 import java.util.stream.Collectors;
